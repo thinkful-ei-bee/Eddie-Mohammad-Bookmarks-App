@@ -1,6 +1,7 @@
 'use strict';
 
 const store = (function(){
+  // these function calls the api
   const addBookmark = function(bookmark){
     this.list.push(bookmark);
   };
