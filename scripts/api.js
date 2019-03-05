@@ -1,5 +1,5 @@
 'use strict';
-// calls the thinkful bookmark api, nothing else happens here
+// calls the thinkful bookmark api, nothing else happens here. Helper functions 
 const api = (function(){
   const baseUrl = 'https://thinkful-list-api.herokuapp.com/Eddie-Aamir/'; // from thinkful documentation
   // function here calls the api server
@@ -33,7 +33,7 @@ const api = (function(){
     }); // fetch function defaults to GET method, so we need to provide what method type
   }// delete method sends an empty object
 
-  
+
   return{
     getBookmarks,
     createBookmark,
