@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <header>
+        <h1> Welcome to Bookmark App</h1>
+      </header>
+      
+      <div class="list-controls">
+        <form class="add-bookmark-form">
+          <label for="title">Title:</label>
+          <input name="title">
+          <label for="url">URL:</label>
+          <input name="url">
+          <label name="description">Description:</label>
+          <textarea name="description"></textarea>
+          <label for="1star">1 star</label>
+          <input type="radio" name="star" value="1star" checked>
+          <label for="2star">2 star</label>
+          <input type="radio" name="star" value="2star" checked>
+          <label for="3star">3 star</label>
+          <input type="radio" name="star" value="3star" checked>
+          <label for="4star">4 star</label>
+          <input type="radio" name="star" value="4star" checked>
+          <label for="5star">5 star</label>
+          <input type="radio" name="star" value="5star" checked>
+          <input type="submit" value="Submit">
+          <button>Cancel</button>
+        </form>
+      </div>
+      
+      <div class="bookmark-list">
+        <ul>
+          <li>
+            <ul>
+              <li>
+                title
+              </li>
+              <li>
+                rating
+              </li>
+            </ul>
+          </li>
+          <li>
+              <ul>
+                <li>
+                  title
+                </li>
+                <li>
+                  rating
+                </li>
+              </ul>
+            </li>
+        </ul>
+      </div>
+</body>
+</html>
