@@ -21,6 +21,7 @@ const store = (function(){
   return {
     list: [],
     adding: false,
+    error: null,
     minimumRating: 0,
     addBookmark,
     deleteBookmark,

@@ -70,7 +70,7 @@ const bookmarkList = (function(){
           <label for="5star">5 star</label>
           <input type="radio" name="star" value="5star" checked>
           <input type="submit" value="Submit">
-          <button>Cancel</button>
+          <button class="js-cancel-button">Cancel</button>
         </form>`;
     }
     return `<button id="js-add-bookmark-btn">Add</button>
@@ -84,8 +84,20 @@ const bookmarkList = (function(){
     </select>`;
   }
 
+  function generateError(){
+    return`
+    <p class="error">${store.error.message}</p>
+    `;
+  }
+
   /******** Render Function *******/
   function render(){
+    if (store.error){
+      $('.error-display').html(generateError());
+    }
+    else{
+      $('.error-display').html('');
+    }
     let list = [...store.list];
     list = list.filter(bookmark => bookmark.rating >= store.minimumRating);
     const bookmarkListString = generateBookmarkList(list);
@@ -120,12 +132,38 @@ const bookmarkList = (function(){
       $('#description').val('');
       $('input[name=star]:checked').val('');
       api.createBookmark(title,url,desc,rating)
-        .then(res=>res.json())
+        .then(res=>{
+          if (!res.ok) {
+            console.log(`This is the error codet: ${res.status}`);
+            store.error = {code: res.status};
+          }
+          if (!res.headers.get('content-type').includes('json')) {
+            console.log(`This is the res.statusText: ${res.statusText}`);
+            store.error.message = res.statusText;
+            return Promise.reject(store.error);
+          }
+          return res.json();
+        })
         .then(data =>{
-          store.addBookmark(data);
-          store.adding = false;
+          if (store.error){
+            console.log(`This is the error message: ${data.message}`);
+            store.error.message = data.message;
+            // display on screen what the error was
+            console.log(store.error);
+          }else{
+            store.addBookmark(data);
+            store.adding = false;
+          }
           render();
+          store.error=null;
         });
+    });
+  }
+
+  function handleCancelClick(){
+    $('.list-controls').on('click','.js-cancel-button',function(event){
+      store.adding = false;
+      render();
     });
   }
 
@@ -146,10 +184,12 @@ const bookmarkList = (function(){
   function handleDeleteBookmarkClick(){ //event delegation
     $('.bookmark-list').on('click', '.js-delete-button', function(event){      
       const id = captureId($(event.currentTarget).parents('li'));
-      api.deleteBookmark(id).then(res => res.json()).then(() =>{ // due to asyn nature, api needs to send a OK status before deleting from the store.
-        store.deleteBookmark(id);
-        render();
-      });
+      api.deleteBookmark(id)
+        .then(res => res.json())
+        .then(() =>{ // due to asyn nature, api needs to send a OK status before deleting from the store.
+          store.deleteBookmark(id);
+          render();
+        });
     });
   }
   
@@ -164,6 +204,7 @@ const bookmarkList = (function(){
 
   function bindEventListeners(){
     handleAddBookmarkClick();
+    handleCancelClick();
     handleNewBookmarkSubmit();
     handleToggleBookmarkView();
     handleDeleteBookmarkClick();
