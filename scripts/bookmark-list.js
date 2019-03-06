@@ -74,8 +74,8 @@ const bookmarkList = (function(){
         </form>`;
     }
     return `<button id="js-add-bookmark-btn">Add</button>
-    <select>
-      <option>Minimum Rating</option>
+    <select class= "js-select-rating">
+      <option value="0">Minimum Rating</option>
       <option value="1">1 Star</option>
       <option value="2">2 Star</option>
       <option value="3">3 Star</option>
@@ -87,6 +87,7 @@ const bookmarkList = (function(){
   /******** Render Function *******/
   function render(){
     let list = [...store.list];
+    list = list.filter(bookmark => bookmark.rating >= store.minimumRating);
     const bookmarkListString = generateBookmarkList(list);
     $('.bookmark-list').html(bookmarkListString);
     $('.list-controls').html(generateMenu());
@@ -142,7 +143,7 @@ const bookmarkList = (function(){
     });
   }
 
-  function handleDeleteBookmarkClick(){
+  function handleDeleteBookmarkClick(){ //event delegation
     $('.bookmark-list').on('click', '.js-delete-button', function(event){      
       const id = captureId($(event.currentTarget).parents('li'));
       api.deleteBookmark(id).then(res => res.json()).then(() =>{ // due to asyn nature, api needs to send a OK status before deleting from the store.
@@ -151,11 +152,22 @@ const bookmarkList = (function(){
       });
     });
   }
+  
+  function handleMinimumRatingChange(){ // event delegation
+    $('.list-controls').on('change', 'select', function(event){
+      console.log('rating changed');
+      console.log($(this).val());
+      store.setMinimumRating( $(this).val());
+      render();      
+    });
+  }
+
   function bindEventListeners(){
     handleAddBookmarkClick();
     handleNewBookmarkSubmit();
     handleToggleBookmarkView();
     handleDeleteBookmarkClick();
+    handleMinimumRatingChange();
   }
   return {
     render: render,
