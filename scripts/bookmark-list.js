@@ -185,10 +185,26 @@ const bookmarkList = (function(){
     $('.bookmark-list').on('click', '.js-delete-button', function(event){      
       const id = captureId($(event.currentTarget).parents('li'));
       api.deleteBookmark(id)
-        .then(res => res.json())
-        .then(() =>{ // due to asyn nature, api needs to send a OK status before deleting from the store.
+        .then(res => {
+          if (!res.ok) {
+            console.log(`This is the error code: ${res.status}`);
+            store.error = {code: res.status};
+          }
+          if (!res.headers.get('content-type').includes('json')) {
+            console.log(`This is the res.statusText: ${res.statusText}`);
+            store.error.message = res.statusText;
+            return Promise.reject(store.error);
+          }
+          res.json();
+        })
+        .then((data) => {
+          if(store.error){
+            store.error.message= 'Cannot delete an item';
+            console.log(store.error.message);
+          } // due to asyn nature, api needs to send a OK status before deleting from the store.
           store.deleteBookmark(id);
           render();
+          store.error = null;
         });
     });
   }
