@@ -11,7 +11,7 @@ const bookmarkList = (function(){
     // this function generate the html element version of the provided bookmark in a string
     if (bookmark.extended){
       return `
-      <li class="bookmark extended">
+      <li data-id= "${bookmark.id}" class="bookmark extended">
         <ul>
           <li>
             ${bookmark.title}
@@ -25,12 +25,12 @@ const bookmarkList = (function(){
           <li>
             <a href="${bookmark.url}">Visit Site</a>
           </li>
-          <button>Delete</button>
+          <button class= "js-delete-button">Delete</button>
         </ul>
       </li>`;
     }
     return`
-    <li class="bookmark">
+    <li data-id= "${bookmark.id}" class="bookmark">
       <ul>
         <li>
           ${bookmark.title}
@@ -46,15 +46,6 @@ const bookmarkList = (function(){
     // this function generates one string
     const listCopy = list.map(item => generateBookmark(item));
     return listCopy.join('');
-  }
-
-  function generateExtendedViewBookmark(bookmark){
-    // this function generates the extended view of the provided bookmark
-
-  }
-
-  function generateSubmitForm(){
-    // this function generates the form to add the bookmark
   }
 
   function generateMenu(){
@@ -137,9 +128,34 @@ const bookmarkList = (function(){
     });
   }
 
+  function captureId(element){   
+    return $(element).data('id');
+  }
+
+  function handleToggleBookmarkView(){
+    $('.bookmark-list').on('click','.bookmark', function(event){
+      // console.log(event.currentTarget);
+      const id= captureId(event.currentTarget);
+      const bookmark= store.findById(id);
+      bookmark.extended = !bookmark.extended; // Changed the store
+      render();
+    });
+  }
+
+  function handleDeleteBookmarkClick(){
+    $('.bookmark-list').on('click', '.js-delete-button', function(event){      
+      const id = captureId($(event.currentTarget).parents('li'));
+      api.deleteBookmark(id).then(res => res.json()).then(() =>{ // due to asyn nature, api needs to send a OK status before deleting from the store.
+        store.deleteBookmark(id);
+        render();
+      });
+    });
+  }
   function bindEventListeners(){
     handleAddBookmarkClick();
     handleNewBookmarkSubmit();
+    handleToggleBookmarkView();
+    handleDeleteBookmarkClick();
   }
   return {
     render: render,

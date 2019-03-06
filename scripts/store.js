@@ -14,7 +14,7 @@ const store = (function(){
     this.minimumRating = rating;
   };
 
-  const findById = function(id){
+  const findById = function(id){ // returns the object
     return this.list.find(item => item.id === id);
   };
 
