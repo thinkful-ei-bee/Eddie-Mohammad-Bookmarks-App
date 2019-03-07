@@ -11,15 +11,15 @@ const bookmarkList = (function(){
     // this function generate the html element version of the provided bookmark in a string
     if (bookmark.extended){
       return `
-      <li data-id= "${bookmark.id}" class="bookmark extended">
+      <div data-id= "${bookmark.id}" class="bookmark extended">
         <ul>
-          <li>
+          <li class="bold">
             ${bookmark.title}
           </li>
           <li>
-            ${bookmark.rating}
+            ${bookmark.rating} star${bookmark.rating > 1 ? 's': ''}
           </li>
-          <li>
+          <li class="description-box">
             ${bookmark.desc}
           </li>
           <li>
@@ -27,19 +27,19 @@ const bookmarkList = (function(){
           </li>
           <button class= "js-delete-button">Delete</button>
         </ul>
-      </li>`;
+      </div>`;
     }
     return`
-    <li data-id= "${bookmark.id}" class="bookmark">
+    <div data-id= "${bookmark.id}" class="bookmark">
       <ul>
-        <li>
+        <li class="bold">
           ${bookmark.title}
         </li>
         <li>
-          ${bookmark.rating}
+          ${bookmark.rating} star${bookmark.rating > 1 ? 's': ''}
         </li>
       </ul>
-    </li>`;
+    </div>`;
   }
 
   function generateBookmarkList(list){
@@ -80,9 +80,10 @@ const bookmarkList = (function(){
           <button class="js-cancel-button">Cancel</button>
         </form>`;
     }
-    return `<div class= "col-12">
+    return `<div class= "col-12 centering">
       <button id="js-add-bookmark-btn">Add</button>
-      <select class= "js-select-rating">
+      <label for="min-rating">Minimum Rating</label>
+      <select id="min-rating" name="min-rating" class= "js-select-rating">
         <option value="0">Minimum Rating</option>
         <option value="1">1 Star</option>
         <option value="2">2 Star</option>

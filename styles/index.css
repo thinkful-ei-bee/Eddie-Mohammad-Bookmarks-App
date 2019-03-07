@@ -18,3 +18,20 @@ header {
 .error{
   color: red;
 }
+
+.bookmark {
+  border: 1px solid darkkhaki;
+  list-style-type: none;
+}
+ul{
+  list-style-type: none;
+}
+.centering-text {
+  text-align: center;
+}
+.bold {
+  font-weight: bold;
+}
+.description-box {
+  border: 1px solid darkkhaki;
+}
