@@ -52,36 +52,45 @@ const bookmarkList = (function(){
     // this function generates the add bookmark button and dropdown. Returns html in a string
     if (store.adding){
       return  `
-      <form class="js-add-bookmark-form">
-          <label for="title">Title:</label>
-          <input id="title" name="title">
-          <label for="url">URL:</label>
-          <input id="url" name="url">
-          <label name="description">Description:</label>
-          <textarea id="description" name="description"></textarea>
-          <label for="1star">1 star</label>
-          <input type="radio" name="star" value="1star" checked>
-          <label for="2star">2 star</label>
-          <input type="radio" name="star" value="2star" checked>
-          <label for="3star">3 star</label>
-          <input type="radio" name="star" value="3star" checked>
-          <label for="4star">4 star</label>
-          <input type="radio" name="star" value="4star" checked>
-          <label for="5star">5 star</label>
-          <input type="radio" name="star" value="5star" checked>
+      <form class="js-add-bookmark-form">          
+          <div class= "col-6">
+            <label for="title">Title:</label>
+            <input id="title" name="title">
+          </div>
+          <div class= "col-6">
+            <label for="url">URL:</label>
+            <input id="url" name="url">
+          </div>            
+         
+          <div class="col-12">
+            <div class= "col-6">
+              <label for="description"></label>
+              <textarea id="description" name="description" placeholder="Enter Description here"></textarea>
+            </div>
+            <div class= "col-6">              
+              <label class="float-left block" for="1star">1 star <input class="float-left" type="radio" name="star" value="1star" checked></label>              
+              <label class="float-left block" for="2star">2 star <input class="float-left" type="radio" name="star" value="2star" checked></label>              
+              <label class="float-left block" for="3star">3 star <input class="float-left" type="radio" name="star" value="3star" checked></label>              
+              <label class="float-left block" for="4star">4 star <input class="float-left" type="radio" name="star" value="4star" checked></label>             
+              <label class="float-left block" for="5star">5 star <input class="float-left" type="radio" name="star" value="5star" checked></label>
+              
+            </div>
+          </div>          
           <input type="submit" value="Submit">
           <button class="js-cancel-button">Cancel</button>
         </form>`;
     }
-    return `<button id="js-add-bookmark-btn">Add</button>
-    <select class= "js-select-rating">
-      <option value="0">Minimum Rating</option>
-      <option value="1">1 Star</option>
-      <option value="2">2 Star</option>
-      <option value="3">3 Star</option>
-      <option value="4">4 Star</option>
-      <option value="5">5 Star</option>
-    </select>`;
+    return `<div class= "col-12">
+      <button id="js-add-bookmark-btn">Add</button>
+      <select class= "js-select-rating">
+        <option value="0">Minimum Rating</option>
+        <option value="1">1 Star</option>
+        <option value="2">2 Star</option>
+        <option value="3">3 Star</option>
+        <option value="4">4 Star</option>
+        <option value="5">5 Star</option>
+      </select>
+    </div>`;
   }
 
   function generateError(){
