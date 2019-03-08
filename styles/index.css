@@ -23,6 +23,9 @@ header {
   border: 1px solid darkkhaki;
   list-style-type: none;
 }
+.extended{
+  background-color: lightslategray;
+}
 ul{
   list-style-type: none;
 }
@@ -33,5 +36,5 @@ ul{
   font-weight: bold;
 }
 .description-box {
-  border: 1px solid darkkhaki;
+  
 }
