@@ -19,17 +19,17 @@ const bookmarkList = (function(){
     if (bookmark.extended){
       return `
       <div data-id= "${bookmark.id}" class="bookmark extended col-12">
-        <ul>
-          <li class="bold col-6" style = "border: 1px solid black">
+        <ul class="col-12">
+          <li class="bold col-6" >
             ${bookmark.title}
           </li>
-          <li class="col-6" style = "border: 1px solid black">
+          <li class="col-3" >
             <a href="${bookmark.url}">Visit Site</a>
           </li>
-          <li class="description-box col-6" style = "border: 1px solid black">
-            ${bookmark.desc}
-          </li>                    
-          <li class="col-6">       
+          <div class="description-box col-6">          
+            <p>${bookmark.desc}
+          </div>                    
+          <li class="col-3">       
             ${bookmark.rating > 1 ? generateStar(bookmark.rating) : '<i class="fa fa-star" aria-hidden="true"></i>'}
           </li>                  
         </ul>
