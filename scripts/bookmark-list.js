@@ -6,9 +6,15 @@
 const bookmarkList = (function(){
 
   /************************************************ Generate Functions ********************************************/
-
+  function generateStar(val){
+    console.log('inside star function');
+    for(let i = 1; i < val; i++){      
+      console.log ('<i class="fa fa-star" aria-hidden="true"></i>');
+    }
+  }
   function generateBookmark(bookmark){
     // this function generate the html element version of the provided bookmark in a string
+    
     if (bookmark.extended){
       return `
       <div data-id= "${bookmark.id}" class="bookmark extended">
@@ -16,8 +22,8 @@ const bookmarkList = (function(){
           <li class="bold">
             ${bookmark.title}
           </li>
-          <li>
-            ${bookmark.rating} star${bookmark.rating > 1 ? 's': ''}
+          <li>           
+            ${bookmark.rating > 1 ? generateStar(bookmark.rating) : '<i class="fa fa-star" aria-hidden="true"></i>'}
           </li>
           <li class="description-box">
             ${bookmark.desc}
@@ -35,7 +41,7 @@ const bookmarkList = (function(){
         <li class="bold">
           ${bookmark.title}
         </li>
-        <li>
+        <li>          
           ${bookmark.rating} star${bookmark.rating > 1 ? 's': ''}
         </li>
       </ul>
