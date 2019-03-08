@@ -77,10 +77,10 @@ const bookmarkList = (function(){
               <textarea id="description" name="description" placeholder="Enter Description here"></textarea>
             </div>
             <div class= "col-6">              
-              <label class="float-left block" for="1star">1 star <input class="float-left" type="radio" name="star" value="1star" checked></label>              
-              <label class="float-left block" for="2star">2 star <input class="float-left" type="radio" name="star" value="2star" checked></label>              
-              <label class="float-left block" for="3star">3 star <input class="float-left" type="radio" name="star" value="3star" checked></label>              
-              <label class="float-left block" for="4star">4 star <input class="float-left" type="radio" name="star" value="4star" checked></label>             
+              <label class="float-left block" for="1star">1 star <input class="float-left" type="radio" name="star" value="1star"></label>              
+              <label class="float-left block" for="2star">2 star <input class="float-left" type="radio" name="star" value="2star"></label>              
+              <label class="float-left block" for="3star">3 star <input class="float-left" type="radio" name="star" value="3star"></label>              
+              <label class="float-left block" for="4star">4 star <input class="float-left" type="radio" name="star" value="4star"></label>             
               <label class="float-left block" for="5star">5 star <input class="float-left" type="radio" name="star" value="5star" checked></label>
               
             </div>
@@ -93,7 +93,7 @@ const bookmarkList = (function(){
       <button id="js-add-bookmark-btn">Add</button>
       <label for="min-rating" value="Minimum Rating"></label>
       <select id="min-rating" name="min-rating" class= "js-select-rating">
-        <option value="0">Minimum Rating</option>
+        <option value="0">Select a Rating</option>
         <option value="1">1 Star</option>
         <option value="2">2 Star</option>
         <option value="3">3 Star</option>
@@ -263,6 +263,7 @@ const bookmarkList = (function(){
         .then((data) => {
           console.log(data,typeof data);
           if(store.error){
+            console.log(store.error);
             store.error.message= 'Cannot delete an item';
             console.log(store.error.message);
           } // due to asyn nature, api needs to send a OK status before deleting from the store.
