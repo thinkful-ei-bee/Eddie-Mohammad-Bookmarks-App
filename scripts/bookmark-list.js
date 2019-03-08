@@ -249,8 +249,6 @@ const bookmarkList = (function(){
     // clear the error in the store
     $('.bookmark-list').on('click', '.js-delete-button', function(event){      
       const id = captureId($(event.currentTarget).parents('div'));
-      console.log('currentTarget:', event.currentTarget);
-      console.log('target:', event.target);
       api.deleteBookmark(id)
         .then(handleError)
         .then((data) => {
