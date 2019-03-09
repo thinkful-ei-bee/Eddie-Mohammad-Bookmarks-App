@@ -24,7 +24,7 @@ const bookmarkList = (function(){
             ${bookmark.title}
           </li>
           <li class="col-3" >
-            <a href="${bookmark.url}">Visit Site</a>
+            <a href="${bookmark.url}" target="_blank">Visit Site</a>
           </li>
           <div class="description-box col-6">          
             <p>${bookmark.desc}
@@ -77,23 +77,25 @@ const bookmarkList = (function(){
               <textarea id="description" name="description" placeholder="Enter Description here"></textarea>
             </div>
             <div class= "col-6">              
-              <label class="float-left block" for="1star">1 star <input class="float-left" type="radio" name="star" value="1star"></label>              
-              <label class="float-left block" for="2star">2 star <input class="float-left" type="radio" name="star" value="2star"></label>              
-              <label class="float-left block" for="3star">3 star <input class="float-left" type="radio" name="star" value="3star"></label>              
-              <label class="float-left block" for="4star">4 star <input class="float-left" type="radio" name="star" value="4star"></label>             
-              <label class="float-left block" for="5star">5 star <input class="float-left" type="radio" name="star" value="5star" checked></label>
+              <label class="float-left block" for="1star">1 star <input id="1star" class="float-left" type="radio" name="star" value="1star"></label>              
+              <label class="float-left block" for="2star">2 star <input id="2star" class="float-left" type="radio" name="star" value="2star"></label>              
+              <label class="float-left block" for="3star">3 star <input id="3star" class="float-left" type="radio" name="star" value="3star"></label>              
+              <label class="float-left block" for="4star">4 star <input id="4star" class="float-left" type="radio" name="star" value="4star"></label>             
+              <label class="float-left block" for="5star">5 star <input id="5star" class="float-left" type="radio" name="star" value="5star" checked></label>
               
             </div>
-          </div>          
-          <input type="submit" value="Submit">
-          <button class="js-cancel-button">Cancel</button>
+          </div>   
+          <div class="centering-text">       
+            <input type="submit" value="Submit">
+            <button class="js-cancel-button">Cancel</button>
+          </div>
         </form>`;
     }
     return `<div class= "col-12 centering-text">
       <button id="js-add-bookmark-btn">Add</button>
       <label for="min-rating" value="Minimum Rating"></label>
       <select id="min-rating" name="min-rating" class= "js-select-rating">
-        <option value="0">Select a Rating</option>
+        <option value="0">Select a Minimum Rating</option>
         <option value="1">1 Star</option>
         <option value="2">2 Star</option>
         <option value="3">3 Star</option>
@@ -155,10 +157,8 @@ const bookmarkList = (function(){
         .then(handleError)
         .then(data =>{
           if (store.error){
-            console.log(`This is the error message: ${data.message}`);
             store.error.message = data.message;
-            // display on screen what the error was
-            console.log(store.error);
+            // save error to store.error.message
           }else{
             store.addBookmark(data);
             store.adding = false;
@@ -200,11 +200,9 @@ const bookmarkList = (function(){
     // this function checks the response from the thinkful api for any errors
     // returns a promise
     if (!res.ok) {
-      console.log(`This is the error code: ${res.status}`);
       store.error = {code: res.status};
     }
     if (!res.headers.get('content-type').includes('json')) {
-      console.log(`This is the res.statusText: ${res.statusText}`);
       store.error.message = res.statusText;
       return Promise.reject(store.error);
     }
@@ -257,15 +255,12 @@ const bookmarkList = (function(){
     // re render
     // clear the error in the store
     $('.bookmark-list').on('click', '.js-delete-button', function(event){      
-      const id = captureId($(event.currentTarget).parents('div'));
+      const id = captureId($(event.currentTarget).closest('div[class^="bookmark"]'));
       api.deleteBookmark(id)
         .then(handleError)
-        .then((data) => {
-          console.log(data,typeof data);
+        .then(() => {
           if(store.error){
-            console.log(store.error);
             store.error.message= 'Cannot delete an item';
-            console.log(store.error.message);
           } // due to asyn nature, api needs to send a OK status before deleting from the store.
           store.deleteBookmark(id);
           render();
