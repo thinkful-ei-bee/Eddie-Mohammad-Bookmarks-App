@@ -6,27 +6,36 @@
 const bookmarkList = (function(){
 
   /************************************************ Generate Functions ********************************************/
-
+  function generateStar(val){
+    let value ='';   
+    for(let i = 1; i <= val; i++){         
+      value +=('<i class="fa fa-star" aria-hidden="true"></i>');
+    }
+    return value;    
+  }
   function generateBookmark(bookmark){
     // this function generate the html element version of the provided bookmark in a string
+    
     if (bookmark.extended){
       return `
-      <div data-id= "${bookmark.id}" class="bookmark extended">
-        <ul>
-          <li class="bold">
+      <div data-id= "${bookmark.id}" class="bookmark extended col-12">
+        <ul class="col-12">
+          <li class="bold col-6" >
             ${bookmark.title}
           </li>
-          <li>
-            ${bookmark.rating} star${bookmark.rating > 1 ? 's': ''}
-          </li>
-          <li class="description-box">
-            ${bookmark.desc}
-          </li>
-          <li>
+          <li class="col-3" >
             <a href="${bookmark.url}">Visit Site</a>
           </li>
-          <button class= "js-delete-button">Delete</button>
+          <div class="description-box col-6">          
+            <p>${bookmark.desc}
+          </div>                    
+          <li class="col-3">       
+            ${bookmark.rating > 1 ? generateStar(bookmark.rating) : '<i class="fa fa-star" aria-hidden="true"></i>'}
+          </li>                  
         </ul>
+        <div class="col-12 centering-text">
+            <button class= "js-delete-button">Delete</button>
+        </div>      
       </div>`;
     }
     return`
@@ -35,8 +44,8 @@ const bookmarkList = (function(){
         <li class="bold">
           ${bookmark.title}
         </li>
-        <li>
-          ${bookmark.rating} star${bookmark.rating > 1 ? 's': ''}
+        <li>          
+          ${bookmark.rating > 1 ? generateStar(bookmark.rating) : '<i class="fa fa-star" aria-hidden="true"></i>'}
         </li>
       </ul>
     </div>`;
@@ -82,7 +91,7 @@ const bookmarkList = (function(){
     }
     return `<div class= "col-12 centering-text">
       <button id="js-add-bookmark-btn">Add</button>
-      <label for="min-rating">Minimum Rating: </label>
+      <label for="min-rating" value="Minimum Rating"></label>
       <select id="min-rating" name="min-rating" class= "js-select-rating">
         <option value="0">Select a Rating</option>
         <option value="1">1 Star</option>
